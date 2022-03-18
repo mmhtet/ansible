@@ -1,0 +1,38 @@
+---
+- hosts: localhost
+  vars_files: /etc/ansible/delete_list.yml
+#  vars:
+#    vmname:
+#      - testingvm1
+#      - testingvm2
+  gather_facts: false
+  connection: local
+  become: true
+  vars_prompt:
+   - name: "vm_hostname"
+     prompt: "Enter vm hostname"
+     private: no
+
+   - name: "vm_user"
+     prompt: "Enter vm username"
+     private: no
+
+   - name: "vm_pass"
+     prompt: "Enter vm password"
+     private: yes
+  tasks:
+   - vsphere_guest:
+      vcenter_hostname: "{{ vm_hostname }}"
+      username: "{{ vm_user }}"
+      password: "{{ vm_pass }}"
+      guest: "{{ item }}"
+      state: absent
+      validate_certs: no
+      force: yes
+      esxi:
+       datacenter: ha-datacenter
+       hostname: "esxi-1"
+     with_items:
+      - "{{ vmname }}"
+...
+
