@@ -24,7 +24,7 @@
                   vcenter_hostname: "{{ vm_hostname }}"
                   username: "{{ vm_user }}"
                   password: "{{ vm_pass }}"
-                  guest: "testingvm2"
+                  guest: "testingvm"
                   state: powered_on
                   validate_certs: false
                   vm_extra_config:
