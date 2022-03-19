@@ -1,0 +1,30 @@
+---
+ - hosts: ansible-node1
+   vars: 
+    user:
+     - user1
+     - user2
+     - user3
+    group:
+     - group1
+     - group2
+     - group3
+   tasks:
+    - name: create users
+      user:
+       name: "{{ item }}"
+      with_items: "{{ user }}"
+
+    - name: create groups
+      group:
+       name: "{{ item }}"
+      with_items: "{{ group }}"
+    
+    - name: add users to groups
+      user:
+       name: "{{ item[0] }}"
+       group: "{{ item[1] }}"
+      with_nested:
+       - "{{ user }}"
+       - "{{ group }}"
+
